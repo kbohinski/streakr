@@ -2,15 +2,18 @@
 
 echo "Its a new day, time for some commits!"
 
-rand = shuf -i 1-5 -n 1
+RAND=$(( ( RANDOM % 5 ) + 1 ))
 
-while [ $rand > 0 ]
+echo $RAND
+cd ~/Desktop/streakr
+
+for (( i=0; i <= $RAND; ++i ))
 do
-	echo 'date  $rand' >> gitGraph.txt
+	echo $i
+	echo "streakr--`date`  $i" >> gitGraph.txt
 	git add gitGraph.txt
-	git commit -m "streakr--'date'"
+	git commit -m "streakr--`date` $i"
 	git push origin master
-	$rand --
 done
 
 echo "Pushed for the day!"

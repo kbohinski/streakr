@@ -13,7 +13,8 @@ do
 	echo "streakr--`date`  $i" >> gitGraph.txt
 	git add gitGraph.txt
 	git commit -m "streakr--`date` $i"
-	git push origin master
 done
+
+git push origin master
 
 echo "Pushed for the day!"

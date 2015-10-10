@@ -1,6 +1,7 @@
-$action = New-ScheduledTaskAction -Execute  'C:\WINDOWS\system32\WindowsPowerShell\v1.0\powershell.exe -NoLogo -NonInteractive -File "C:\streakr\streakr.ps1"'
+mkdir C:\streakr
+cp .\streakr.ps1 C:\streakr\streakr.ps1
 
-$trigger =  New-ScheduledTaskTrigger -Daily -At 1pm
+Write-Output "Setting up for a daily task..."
 
 $user = Read-Host ("Please enter your windows username in domain\user format")
 $pass = Read-Host ("Please enter the password for " + $user) -AsSecureString
@@ -23,7 +24,8 @@ $xml = '<?xml version="1.0" encoding="UTF-16"?>
   </Triggers>
   <Principals>
     <Principal id="Author">
-      <UserId>$user</UserId>
+      <UserId>'
+      $xml1='</UserId>
       <LogonType>Password</LogonType>
       <RunLevel>LeastPrivilege</RunLevel>
     </Principal>
@@ -55,6 +57,6 @@ $xml = '<?xml version="1.0" encoding="UTF-16"?>
   </Actions>
 </Task>'
 
-Write-Output $xml
+Register-ScheduledTask -TaskName "streakr" -TaskPath "\" -Xml "$xml$user$xml1" -User $user -Password $pass
 
-Register-ScheduledTask -TaskName "streakr" -TaskPath "\" -Xml $xml -User $user -Password $pass
+Write-Output "Done!"
